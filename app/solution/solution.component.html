@@ -1,0 +1,41 @@
+<span>Billing Currency</span>
+<span class="right select" style="width: 175px; display: inline-block;">
+   <select name="cur" id="selects_3" [ngModel]="currencyType" (ngModelChange)="onChange($event)">
+      <option *ngFor="let cur of currencies" [value]="cur.value">
+         {{cur.display}}
+   </select>
+</span>
+
+<span *ngIf="errorMessage" class="alert alert-app-level alert-danger alert-sm"
+      style="margin-bottom: 18px; display: inline-block;float: right;">
+      <div class="alert-item static">
+         <div class="alert-text">
+            {{errorMessage}}
+         </div>
+      </div>
+   <button type="button" class="close" aria-label="Close" (click)=" errorMessage='' ">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+   </button>
+</span>
+
+<table class="table">
+   <thead>
+   <tr>
+      <th>Function ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Current Monthly Bill ({{currencyType}})</th>
+   </tr>
+   </thead>
+   <tbody>
+   <tr *ngFor="let status of fnsStatus | async">
+      <td>{{status.id}}</td>
+      <td>{{status.name}}</td>
+      <td>{{status.description}}</td>
+      <td>{{status.billingUsage | convertCurrency:currencyType:usd_eur:usd_gbp | currency:currencyType:'symbol-narrow': '1.4-4'}}</td>
+   </tr>
+   </tbody>
+</table>
+
+
+
